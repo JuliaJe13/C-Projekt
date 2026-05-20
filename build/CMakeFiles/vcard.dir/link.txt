@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/vcard.dir/src/main.cpp.o -o vcard 

@@ -1,10 +1,11 @@
 //vcard
 #include <stdio.h>
+#include <string>
 #include <getopt.h>
 
 int main(int argc, char *argv[]) {
     int opt;
-    char *vorname = NULL;
+    std::string vorname = "";
     char *nachname = NULL;
     char *org = NULL;
     char *email = NULL;
@@ -56,17 +57,19 @@ int main(int argc, char *argv[]) {
                 }
                 break;
             case 'h':
-                printf("Hilfe hier:.......")
+                printf("Hilfe hier:.......");
                 break;
+                return 0;
             case 3:
-                programmer_info = optarg;
+                printf("Programmer-Info ....");
                 break;
+                return 0;
         }
     }
 
     // Hier kommt die Ausgabe
     
-    if (vorname != NULL && nachname != NULL) {
+    if (vorname != "" && nachname != "") {
         printf("BEGIN:VCARD\n");
         printf("VERSION:3.0\n");
         printf("N:%s;%s;;;\n", nachname, vorname);
@@ -76,14 +79,17 @@ int main(int argc, char *argv[]) {
         return 0;
 
     } else {
-        if (vorname == NULL && nachname == NULL) {
+        if (vorname.empty() && nachname.empty()) {
             fprintf(stderr, "Fehler: Kein Vor- und Nachname angegeben!\n");
-        } else if (vorname == NULL) {
-            fprintf(stderr, "Fehler: Kein Vorname angegeben!\n");
-        } else (nachname == NULL) {
-            fprintf(stderr, "Fehler: Kein Nachname angegeben!\n");
+        } else {
+            if (vorname.empty()) {
+                fprintf(stderr, "Fehler: Kein Vorname angegeben!\n");
+            }else if (nachname.empty()) {
+                fprintf(stderr, "Fehler: Kein Nachname angegeben!\n");
+            }
         }
         return 1;
+
     }
 
 }
