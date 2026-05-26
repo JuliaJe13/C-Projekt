@@ -8,8 +8,8 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
     int opt;
-    string vorname = "";
-    string nachname = "";
+    string firstname = "";
+    string lastname = "";
     string org = "";
     char *email[5];
     int email_count = 0;
@@ -37,10 +37,10 @@ int main(int argc, char *argv[]) {
     while ((opt = getopt_long(argc, argv, "f:s:m:p:h", long_opts, NULL)) != -1) {
         switch (opt) {
             case 'f':
-                vorname = optarg;
+                firstname = optarg;
                 break;
             case 's':
-                nachname = optarg;
+                lastname = optarg;
                 break;
             case 1:
                 if (org.empty()) {
@@ -84,11 +84,11 @@ int main(int argc, char *argv[]) {
 
     // Hier kommt die Ausgabe
     
-    if (!vorname.empty() && !nachname.empty()) {
+    if (!firstname.empty() && !lastname.empty()) {
         printf("BEGIN:VCARD\n");
         printf("VERSION:3.0\n");
-        printf("N:%s;%s;;;\n", nachname.c_str(), vorname.c_str());
-        printf("FN:%s %s\n", vorname.c_str(), nachname.c_str());
+        printf("N:%s;%s;;;\n", lastname.c_str(), firstname.c_str());
+        printf("FN:%s %s\n", firstname.c_str(), lastname.c_str());
         if (!org.empty()) {
             printf("ORG:%s\n", org.c_str());
         }
@@ -107,13 +107,13 @@ int main(int argc, char *argv[]) {
         return 0;
 
     } else {
-        if (vorname.empty() && nachname.empty()) {
-            fprintf(stderr, "Fehler: Kein Vor- und Nachname angegeben!\n");
+        if (firstname.empty() && lastname.empty()) {
+            fprintf(stderr, "Fehler: Kein Vor- und lastname angegeben!\n");
         } else {
-            if (vorname.empty()) {
-                fprintf(stderr, "Fehler: Kein Vorname angegeben!\n");
-            }else if (nachname.empty()) {
-                fprintf(stderr, "Fehler: Kein Nachname angegeben!\n");
+            if (firstname.empty()) {
+                fprintf(stderr, "Fehler: Kein firstname angegeben!\n");
+            }else if (lastname.empty()) {
+                fprintf(stderr, "Fehler: Kein lastname angegeben!\n");
             }
         }
         return 1;
