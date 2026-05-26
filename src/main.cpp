@@ -1,4 +1,5 @@
 //vcard
+#include <ctime>
 #include <stdio.h>
 #include <string>
 #include <getopt.h>
@@ -27,6 +28,11 @@ int main(int argc, char *argv[]) {
         {"programmer-info", no_argument, 0, 3},
         {0, 0, 0, 0}
     };
+
+    time_t now = time(NULL);
+    struct tm *timeNow = localtime(&now);
+    char rev[20];
+    strftime(rev, sizeof(rev), "%Y%m%dT%H%M%SZ", timeNow);
 
     while ((opt = getopt_long(argc, argv, "f:s:m:p:h", long_opts, NULL)) != -1) {
         switch (opt) {
@@ -78,12 +84,14 @@ int main(int argc, char *argv[]) {
 
     // Hier kommt die Ausgabe
     
-    if (vorname != "" && nachname != "") {
+    if (!vorname.empty() && !nachname.empty()) {
         printf("BEGIN:VCARD\n");
         printf("VERSION:3.0\n");
         printf("N:%s;%s;;;\n", nachname.c_str(), vorname.c_str());
         printf("FN:%s %s\n", vorname.c_str(), nachname.c_str());
-        printf("ORG:%s\n", org.c_str());
+        if (!org.empty()) {
+            printf("ORG:%s\n", org.c_str());
+        }
         for (int i = 0; i < phone_work_count; i++) {
             printf("TEL;TYPE=WORK,VOICE:%s\n", phone_work[i]);
         }   
@@ -91,9 +99,9 @@ int main(int argc, char *argv[]) {
             printf("TEL;TYPE=HOME,VOICE:%s\n", phone_home[i]);
         }   
         for (int i = 0; i < email_count; i++) {
-            printf("EMAIL;INTERNET:%s\n", email[i]);
+            printf("EMAIL;TYPE=PREF,INTERNET:%s\n", email[i]);
         }    
-        printf("REV:");
+        printf("REV:%s\n", rev);
         printf("END:VCARD\n");
 
         return 0;
