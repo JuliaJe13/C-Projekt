@@ -2,18 +2,20 @@
 #include <stdio.h>
 #include <string>
 #include <getopt.h>
+#include <iostream>
+using namespace std;
 
 int main(int argc, char *argv[]) {
     int opt;
-    std::string vorname = "";
-    char *nachname = NULL;
-    char *org = NULL;
-    char *email = NULL;
+    string vorname = "";
+    string nachname = "";
+    string org = "";
+    char *email[5];
+    int email_count = 0;
     char *phone_home[5];
     int phone_home_count = 0;
     char *phone_work[5];
     int phone_work_count = 0;
-    char *programmer_info = NULL;
     struct option long_opts[] = {
         {"firstname", required_argument, 0, 'f'},
         {"surname", required_argument, 0, 's'},
@@ -35,13 +37,22 @@ int main(int argc, char *argv[]) {
                 nachname = optarg;
                 break;
             case 1:
-                org = optarg;
+                if (org.empty()) {
+                    org = optarg; 
+                } else {
+                    org = org + ";" + optarg;
+                }
                 break;
             case 'm':
-                email = optarg;
+                if (email_count == 5) {
+                    fprintf(stderr, "Fehler: Maximal 5 E-Mails möglich!");
+                } else{
+                    email[email_count] = optarg;
+                    email_count++;
+                }
                 break;
             case 'p':
-                if (phone_home_count == 4) {
+                if (phone_home_count == 5) {
                     fprintf(stderr, "Fehler: Maximal 5 Telefonnumern möglich!");
                 } else{
                     phone_home[phone_home_count] = optarg;
@@ -49,7 +60,7 @@ int main(int argc, char *argv[]) {
                 }
                 break;
             case 2:
-                if (phone_work_count == 4) {
+                if (phone_work_count == 5) {
                     fprintf(stderr, "Fehler: Maximal 5 Telefonnumern möglich!");
                 } else {
                     phone_work[phone_work_count] = optarg;
@@ -57,12 +68,10 @@ int main(int argc, char *argv[]) {
                 }
                 break;
             case 'h':
-                printf("Hilfe hier:.......");
-                break;
+                printf("Hilfe hier:.......\n");
                 return 0;
             case 3:
-                printf("Programmer-Info ....");
-                break;
+                printf("Programmer-Info ....\n");
                 return 0;
         }
     }
@@ -72,8 +81,19 @@ int main(int argc, char *argv[]) {
     if (vorname != "" && nachname != "") {
         printf("BEGIN:VCARD\n");
         printf("VERSION:3.0\n");
-        printf("N:%s;%s;;;\n", nachname, vorname);
-        printf("FN:%s %s\n", vorname, nachname);
+        printf("N:%s;%s;;;\n", nachname.c_str(), vorname.c_str());
+        printf("FN:%s %s\n", vorname.c_str(), nachname.c_str());
+        printf("ORG:%s\n", org.c_str());
+        for (int i = 0; i < phone_work_count; i++) {
+            printf("TEL;TYPE=WORK,VOICE:%s\n", phone_work[i]);
+        }   
+        for (int i = 0; i < phone_home_count; i++) {
+            printf("TEL;TYPE=HOME,VOICE:%s\n", phone_home[i]);
+        }   
+        for (int i = 0; i < email_count; i++) {
+            printf("EMAIL;INTERNET:%s\n", email[i]);
+        }    
+        printf("REV:");
         printf("END:VCARD\n");
 
         return 0;
