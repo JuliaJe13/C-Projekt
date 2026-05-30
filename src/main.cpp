@@ -202,6 +202,8 @@ int main(int argc, char *argv[]) {
             fprintf(stderr, "Fehler: Kein Vorname angegeben!\n");
         } else if (lastname.empty()) {
             fprintf(stderr, "Fehler: Kein Nachname angegeben!\n");
+        } else {
+            //Alle anderen Fälle sind bereits abgedeckt
         }
         return 1;
     }
