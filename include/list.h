@@ -2,6 +2,7 @@
 #define LIST_H
 // verkettete Liste
 #include <string>
+#include <stdio.h>
 
 struct Element {
     int order;

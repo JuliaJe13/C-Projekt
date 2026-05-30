@@ -9,7 +9,6 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
-    opterr = 0;
     int opt;
     string firstname = "";
     string lastname = "";
@@ -50,11 +49,6 @@ int main(int argc, char *argv[]) {
             break;
         case 's':
             lastname = optarg;
-            if (lastname.find(' ') != string::npos) {
-                fprintf(stderr, "Fehler: Nur ein Nachname erlaubt!\n");
-                freeList(head);
-                return 1;
-            }
             break;
         case 1:
             if (org.empty()) {
@@ -92,21 +86,15 @@ int main(int argc, char *argv[]) {
                 "Benutzung: vcard [OPTIONEN] [DATEINAME]\n"
                 "\n"
                 "Optionen:\n"
-                "  -f, --firstname NAME    Vorname angeben (mehrere Vornamen: -f \"Hans Peter\")\n"
+                "  -f, --firstname NAME    Vorname angeben\n"
                 "  -s, --surname NAME      Nachname angeben\n"
-                "  -m, --email EMAIL       E-Mail angeben, bis zu 5 möglich\n"
-                "  -p, --phone-home TEL    Private Telefonnummer, bis zu 5 möglich\n"
-                "      --phone-work TEL    Dienstliche Telefonnummer, bis zu 5 möglich\n"
-                "      --org ORG           Organisation angeben, mehrere möglich\n"
+                "  -m, --email EMAIL       E-Mail angeben\n"
+                "  -p, --phone-home TEL    Private Telefonnummer\n"
+                "      --phone-work TEL    Dienstliche Telefonnummer\n"
+                "      --org ORG           Organisation angeben\n"
                 "      --programmer-info   Autor anzeigen\n"
-                "  -h, --help              Hilfe anzeigen\n"
-                "\n"
+                "  -h, --help              Hilfe anzeigen\n\n"
                 "Dateiname                 Ausgabe in Datei speichern in (z.B. kontakt.vcf)\n"
-                "\n"
-                "Beispiele:\n"
-                "  vcard -f Max -s Muster\n"
-                "  vcard -f \"Hans Peter\" -s Muster\n"
-                "  vcard -f Max -s Muster -m max@mail.de kontakt.vcf\n"
             );
             return 0;
         case 3:
@@ -118,30 +106,22 @@ int main(int argc, char *argv[]) {
             printf("EMAIL;TYPE=PREF,INTERNET:julia.r.jerg@t-online.de\n");
             printf("REV:%s\n", rev);
             printf("END:VCARD\n");
-
+            
             return 0;
-        default:
-    if (optopt == 's' || optopt == 'f' || optopt == 'm' || optopt == 'p') {
-        fprintf(stderr, "Fehler: Option -%c braucht ein Argument!\n", optopt);
-    } else {
-        fprintf(stderr, "Fehler: Unbekannte Option!\nHilfe mit der Option -h oder --help\n");
-    }
-    freeList(head);
-    return 1;
         }
     }
 
     // Ungültige Namen überprüfen
     if (!firstname.empty() && firstname[0] == '-') {
-        fprintf(stderr, "Fehler: Ungültiger oder fehlender Vorname!\n");
-        freeList(head);
-        return 1;
-    }
-    if (!lastname.empty() && lastname[0] == '-') {
-        fprintf(stderr, "Fehler: Ungültiger Nachname!\n");
-        freeList(head);
-        return 1;
-    }
+    fprintf(stderr, "Fehler: Ungültiger Vorname!\n");
+    freeList(head);
+    return 1;
+}
+if (!lastname.empty() && lastname[0] == '-') {
+    fprintf(stderr, "Fehler: Ungültiger Nachname!\n");
+    freeList(head);
+    return 1;
+}
 
     stringstream ss(firstname);
     string part;
@@ -179,7 +159,7 @@ int main(int argc, char *argv[]) {
     }
 
     // Hier kommt die Ausgabe
-    if (!firstname.empty() && !lastname.empty()) {
+    if (!firstname.empty() && firstname[0] != '-' && !lastname.empty() && lastname[0] != '-') {
         if (optind < argc) {
             FILE *file = fopen(argv[optind], "w");
             if (file == NULL) {
@@ -197,12 +177,12 @@ int main(int argc, char *argv[]) {
     } else {
         freeList(head);
         if (firstname.empty() && lastname.empty()) {
-            fprintf(stderr, "Fehler: Kein Vor- und Nachname angegeben!\n");
-        } else if (firstname.empty()) {
-            fprintf(stderr, "Fehler: Kein Vorname angegeben!\n");
-        } else if (lastname.empty()) {
-            fprintf(stderr, "Fehler: Kein Nachname angegeben!\n");
-        }
+        fprintf(stderr, "Fehler: Kein Vor- und Nachname angegeben!\n");
+    } else if (firstname.empty()) {
+        fprintf(stderr, "Fehler: Kein Vorname angegeben!\n");
+    } else if (lastname.empty()) {
+        fprintf(stderr, "Fehler: Kein Nachname angegeben!\n");
+    }
         return 1;
     }
 

@@ -20,15 +20,15 @@ void insert(Element **head, int order, std::string content) {
 }
 
 void printList(Element *head, FILE *output) {
-    Element *current = head;
-    while (current != NULL) {
-        fprintf(output, "%s\n", current->content.c_str());
-        current = current->next;
+        Element *current = head;
+        while (current != NULL) {
+            fprintf(output, "%s\n", current->content.c_str());
+            current = current->next;
+        }
     }
-}
 
 void freeList(Element *head) {
-    Element *current = head;
+    Element *current = head;    
     while (current != NULL) {
         Element *next = current->next;
         delete current;

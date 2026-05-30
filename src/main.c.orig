@@ -27,45 +27,45 @@ int main(int argc, char *argv[]) {
 
     while ((opt = getopt_long(argc, argv, "f:s:m:p:h", long_opts, NULL)) != -1) {
         switch (opt) {
-        case 'f':
-            vorname = optarg;
-            break;
-        case 's':
-            nachname = optarg;
-            break;
-        case 1:
-            org = optarg;
-            break;
-        case 'm':
-            email = optarg;
-            break;
-        case 'p':
-            if (phone_home_count == 4) {
-                fprintf(stderr, "Fehler: Maximal 5 Telefonnumern möglich!");
-            } else {
-                phone_home[phone_home_count] = optarg;
-                phone_home_count++;
-            }
-            break;
-        case 2:
-            if (phone_work_count == 4) {
-                fprintf(stderr, "Fehler: Maximal 5 Telefonnumern möglich!");
-            } else {
-                phone_work[phone_work_count] = optarg;
-                phone_work_count++;
-            }
-            break;
-        case 'h':
-            printf("Hilfe hier:.......")
-            break;
-        case 3:
-            programmer_info = optarg;
-            break;
+            case 'f':
+                vorname = optarg;
+                break;
+            case 's':
+                nachname = optarg;
+                break;
+            case 1:
+                org = optarg;
+                break;
+            case 'm':
+                email = optarg;
+                break;
+            case 'p':
+                if (phone_home_count == 4) {
+                    fprintf(stderr, "Fehler: Maximal 5 Telefonnumern möglich!");
+                } else{
+                    phone_home[phone_home_count] = optarg;
+                    phone_home_count++;
+                }
+                break;
+            case 2:
+                if (phone_work_count == 4) {
+                    fprintf(stderr, "Fehler: Maximal 5 Telefonnumern möglich!");
+                } else {
+                    phone_work[phone_work_count] = optarg;
+                    phone_work_count++;
+                }
+                break;
+            case 'h':
+                printf("Hilfe hier:.......")
+                break;
+            case 3:
+                programmer_info = optarg;
+                break;
         }
     }
 
     // Hier kommt die Ausgabe
-
+    
     if (vorname != NULL && nachname != NULL) {
         printf("BEGIN:VCARD\n");
         printf("VERSION:3.0\n");
