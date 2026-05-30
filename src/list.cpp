@@ -19,10 +19,10 @@ void insert(Element **head, int order, std::string content) {
     }
 }
 
-void printList(Element *head) {
+void printList(Element *head, FILE *output) {
         Element *current = head;
         while (current != NULL) {
-            printf("%s\n", current->content.c_str());
+            fprintf(output, "%s\n", current->content.c_str());
             current = current->next;
         }
     }

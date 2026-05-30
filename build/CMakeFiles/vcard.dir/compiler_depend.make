@@ -188,6 +188,7 @@ CMakeFiles/vcard.dir/src/main.cpp.o: /mnt/c/DHBW/Semester_1/C-Projekt/src/main.c
   /usr/include/c++/13/bits/range_access.h \
   /usr/include/c++/13/bits/refwrap.h \
   /usr/include/c++/13/bits/requires_hosted.h \
+  /usr/include/c++/13/bits/sstream.tcc \
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/bits/stl_algobase.h \
   /usr/include/c++/13/bits/stl_construct.h \
@@ -228,6 +229,7 @@ CMakeFiles/vcard.dir/src/main.cpp.o: /mnt/c/DHBW/Semester_1/C-Projekt/src/main.c
   /usr/include/c++/13/new \
   /usr/include/c++/13/ostream \
   /usr/include/c++/13/pstl/pstl_config.h \
+  /usr/include/c++/13/sstream \
   /usr/include/c++/13/stdexcept \
   /usr/include/c++/13/streambuf \
   /usr/include/c++/13/string \
@@ -365,9 +367,11 @@ CMakeFiles/vcard.dir/src/main.cpp.o: /mnt/c/DHBW/Semester_1/C-Projekt/src/main.c
 
 /usr/include/pthread.h:
 
+/usr/include/c++/13/stdexcept:
+
 /usr/include/getopt.h:
 
-/usr/include/c++/13/stdexcept:
+/usr/include/c++/13/sstream:
 
 /usr/include/c++/13/istream:
 
@@ -375,13 +379,15 @@ CMakeFiles/vcard.dir/src/main.cpp.o: /mnt/c/DHBW/Semester_1/C-Projekt/src/main.c
 
 /usr/include/c++/13/ios:
 
-/usr/include/c++/13/cwctype:
-
 /usr/include/c++/13/ctime:
 
 /usr/include/c++/13/ostream:
 
 /usr/include/c++/13/bits/streambuf_iterator.h:
+
+/usr/include/c++/13/cwctype:
+
+/usr/include/c++/13/bits/sstream.tcc:
 
 /usr/include/c++/13/bits/ostream.tcc:
 

@@ -11,7 +11,7 @@ struct Element {
 
 void insert(Element **head, int order, std::string content);
 
-void printList(Element *head);
+void printList(Element *head, FILE *output);
 
 void freeList(Element *head);
 

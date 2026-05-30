@@ -5,6 +5,7 @@
 #include <getopt.h>
 #include <iostream>
 #include "list.h"
+#include <sstream>
 using namespace std;
 
 int main(int argc, char *argv[]) {
@@ -32,7 +33,7 @@ int main(int argc, char *argv[]) {
 
     time_t now = time(NULL);
     struct tm *timeNow = localtime(&now);
-    char rev[20];
+    char rev[25];
     strftime(rev, sizeof(rev), "%Y-%m-%dT%H:%M:%SZ", timeNow);
 
      Element *head = NULL;
@@ -108,8 +109,28 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    insert(&head, 3, "N:" + lastname + ";" + firstname + ";;;");
-    insert(&head, 4, "FN:" + firstname + " " + lastname);
+    stringstream ss(firstname);
+    string part;
+    bool first = true;
+
+    string fullFirstname = firstname;
+    string mainFirstname = "";
+    string additionalFirstnames = "";
+
+    while (getline(ss, part, ' ')) {
+        if (first) {
+            mainFirstname = part;
+            first = false;
+        } else {
+            if (!additionalFirstnames.empty()) {
+                additionalFirstnames += ",";
+            }
+            additionalFirstnames += part;
+        }
+    }
+
+    insert(&head, 3, "N:" + lastname + ";" + mainFirstname + ";" + additionalFirstnames + ";;");
+    insert(&head, 4, "FN:" + fullFirstname + " " + lastname);
     if (!org.empty()) {
         insert(&head, 5, "ORG:" + org);
     }
@@ -123,10 +144,20 @@ int main(int argc, char *argv[]) {
         insert(&head, 8, string("EMAIL;TYPE=PREF,INTERNET:") + email[i]);
     }
 
-
     // Hier kommt die Ausgabe
     if (!firstname.empty() && !lastname.empty()) {
-        printList(head);
+        if (optind < argc) {
+            FILE *file = fopen(argv[optind], "w");
+            if (file == NULL) {
+                fprintf(stderr, "Fehler: Datei konnte nicht geöffnet werden!\n");
+                freeList(head);
+                return 1;
+            }
+            printList(head, file);
+            fclose(file);
+    } else {
+        printList(head, stdout);
+        }
         freeList(head);
         return 0;
     } else {

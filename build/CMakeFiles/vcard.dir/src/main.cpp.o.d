@@ -154,4 +154,5 @@ CMakeFiles/vcard.dir/src/main.cpp.o: \
  /usr/include/c++/13/bits/basic_ios.tcc \
  /usr/include/c++/13/bits/ostream.tcc /usr/include/c++/13/istream \
  /usr/include/c++/13/bits/istream.tcc \
- /mnt/c/DHBW/Semester_1/C-Projekt/include/list.h
+ /mnt/c/DHBW/Semester_1/C-Projekt/include/list.h \
+ /usr/include/c++/13/sstream /usr/include/c++/13/bits/sstream.tcc
