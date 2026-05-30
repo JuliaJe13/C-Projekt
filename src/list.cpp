@@ -1,6 +1,7 @@
 #include "list.h"
 #include <stdio.h>
 
+// Neues Element sortiert einfügen
 void insert(Element **head, int order, std::string content) {
     Element *newElement = new Element;
     newElement->order = order;
@@ -19,6 +20,7 @@ void insert(Element **head, int order, std::string content) {
     }
 }
 
+// Liste ausgeben
 void printList(Element *head, FILE *output) {
     Element *current = head;
     while (current != NULL) {
@@ -27,6 +29,7 @@ void printList(Element *head, FILE *output) {
     }
 }
 
+// Speicher freigeben
 void freeList(Element *head) {
     Element *current = head;
     while (current != NULL) {

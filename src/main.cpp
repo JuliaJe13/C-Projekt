@@ -1,4 +1,4 @@
-//vcard
+// vCard
 #include <ctime>
 #include <stdio.h>
 #include <string>
@@ -37,12 +37,14 @@ int main(int argc, char *argv[]) {
     char rev[25];
     strftime(rev, sizeof(rev), "%Y-%m-%dT%H:%M:%SZ", timeNow);
 
+    // Verkettete Liste initialisieren und Rahmenstruktur einfügen
     Element *head = NULL;
     insert(&head, 1, "BEGIN:VCARD");
     insert(&head, 2, "VERSION:3.0");
     insert(&head, 9, string("REV:") + rev);
     insert(&head, 10, "END:VCARD");
 
+    // Kommandozeilenoptionen parsen
     while ((opt = getopt_long(argc, argv, "f:s:m:p:h", long_opts, NULL)) != -1) {
         switch (opt) {
         case 'f':
@@ -65,7 +67,7 @@ int main(int argc, char *argv[]) {
             break;
         case 'm':
             if (email_count == 5) {
-                fprintf(stderr, "Fehler: Maximal 5 E-Mails möglich!");
+                fprintf(stderr, "Fehler: Maximal 5 E-Mails möglich!\n");
             } else {
                 email[email_count] = optarg;
                 email_count++;
@@ -73,7 +75,7 @@ int main(int argc, char *argv[]) {
             break;
         case 'p':
             if (phone_home_count == 5) {
-                fprintf(stderr, "Fehler: Maximal 5 Telefonnumern möglich!");
+                fprintf(stderr, "Fehler: Maximal 5 Telefonnumern möglich!\n");
             } else {
                 phone_home[phone_home_count] = optarg;
                 phone_home_count++;
@@ -81,7 +83,7 @@ int main(int argc, char *argv[]) {
             break;
         case 2:
             if (phone_work_count == 5) {
-                fprintf(stderr, "Fehler: Maximal 5 Telefonnumern möglich!");
+                fprintf(stderr, "Fehler: Maximal 5 Telefonnumern möglich!\n");
             } else {
                 phone_work[phone_work_count] = optarg;
                 phone_work_count++;
@@ -121,13 +123,13 @@ int main(int argc, char *argv[]) {
 
             return 0;
         default:
-    if (optopt == 's' || optopt == 'f' || optopt == 'm' || optopt == 'p') {
-        fprintf(stderr, "Fehler: Option -%c braucht ein Argument!\n", optopt);
-    } else {
-        fprintf(stderr, "Fehler: Unbekannte Option!\nHilfe mit der Option -h oder --help\n");
-    }
-    freeList(head);
-    return 1;
+            if (optopt == 's' || optopt == 'f' || optopt == 'm' || optopt == 'p') {
+                fprintf(stderr, "Fehler: Option -%c braucht ein Argument!\n", optopt);
+            } else {
+                fprintf(stderr, "Fehler: Unbekannte Option!\nHilfe mit der Option -h oder --help\n");
+            }
+            freeList(head);
+            return 1;
         }
     }
 
@@ -143,6 +145,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
+    // Vornamen aufteilen in Hauptname und Zusatznamen
     stringstream ss(firstname);
     string part;
     bool first = true;
@@ -163,6 +166,7 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    // vCard Elemente in Liste einfügen
     insert(&head, 3, "N:" + lastname + ";" + mainFirstname + ";" + additionalFirstnames + ";;");
     insert(&head, 4, "FN:" + fullFirstname + " " + lastname);
     if (!org.empty()) {
@@ -178,7 +182,7 @@ int main(int argc, char *argv[]) {
         insert(&head, 8, string("EMAIL;TYPE=PREF,INTERNET:") + email[i]);
     }
 
-    // Hier kommt die Ausgabe
+    // Ausgabe in Datei oder stdout
     if (!firstname.empty() && !lastname.empty()) {
         if (optind < argc) {
             FILE *file = fopen(argv[optind], "w");
