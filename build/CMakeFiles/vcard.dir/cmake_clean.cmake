@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/vcard.dir/src/list.cpp.o"
+  "CMakeFiles/vcard.dir/src/list.cpp.o.d"
   "CMakeFiles/vcard.dir/src/main.cpp.o"
   "CMakeFiles/vcard.dir/src/main.cpp.o.d"
   "vcard"

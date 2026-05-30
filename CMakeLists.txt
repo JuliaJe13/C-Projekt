@@ -6,5 +6,5 @@ project(vcard
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(vcard src/main.cpp)
+add_executable(vcard src/main.cpp src/list.cpp)
 target_include_directories(vcard PUBLIC include/)

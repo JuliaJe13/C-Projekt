@@ -5,10 +5,14 @@
 
 struct Element {
     int order;
-    std::string inhalt;
+    std::string content;
     Element *next;
 };
 
 void insert(Element **head, int order, std::string content);
+
+void printList(Element *head);
+
+void freeList(Element *head);
 
 #endif

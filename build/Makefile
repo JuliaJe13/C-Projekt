@@ -129,6 +129,30 @@ vcard/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/vcard.dir/build.make CMakeFiles/vcard.dir/build
 .PHONY : vcard/fast
 
+src/list.o: src/list.cpp.o
+.PHONY : src/list.o
+
+# target to build an object file
+src/list.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vcard.dir/build.make CMakeFiles/vcard.dir/src/list.cpp.o
+.PHONY : src/list.cpp.o
+
+src/list.i: src/list.cpp.i
+.PHONY : src/list.i
+
+# target to preprocess a source file
+src/list.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vcard.dir/build.make CMakeFiles/vcard.dir/src/list.cpp.i
+.PHONY : src/list.cpp.i
+
+src/list.s: src/list.cpp.s
+.PHONY : src/list.s
+
+# target to generate assembly for a file
+src/list.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vcard.dir/build.make CMakeFiles/vcard.dir/src/list.cpp.s
+.PHONY : src/list.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -162,6 +186,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... vcard"
+	@echo "... src/list.o"
+	@echo "... src/list.i"
+	@echo "... src/list.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

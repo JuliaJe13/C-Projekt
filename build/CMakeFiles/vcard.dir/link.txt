@@ -1,1 +1,1 @@
-/usr/bin/c++ CMakeFiles/vcard.dir/src/main.cpp.o -o vcard 
+/usr/bin/c++ CMakeFiles/vcard.dir/src/main.cpp.o CMakeFiles/vcard.dir/src/list.cpp.o -o vcard 

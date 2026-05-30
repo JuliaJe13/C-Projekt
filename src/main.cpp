@@ -4,6 +4,7 @@
 #include <string>
 #include <getopt.h>
 #include <iostream>
+#include "list.h"
 using namespace std;
 
 int main(int argc, char *argv[]) {
@@ -32,7 +33,13 @@ int main(int argc, char *argv[]) {
     time_t now = time(NULL);
     struct tm *timeNow = localtime(&now);
     char rev[20];
-    strftime(rev, sizeof(rev), "%Y%m%dT%H%M%SZ", timeNow);
+    strftime(rev, sizeof(rev), "%Y-%m-%dT%H:%M:%SZ", timeNow);
+
+     Element *head = NULL;
+     insert(&head, 1, "BEGIN:VCARD");
+     insert(&head, 2, "VERSION:3.0");
+     insert(&head, 9, string("REV:") + rev);
+     insert(&head, 10, "END:VCARD");
 
     while ((opt = getopt_long(argc, argv, "f:s:m:p:h", long_opts, NULL)) != -1) {
         switch (opt) {
@@ -74,50 +81,66 @@ int main(int argc, char *argv[]) {
                 }
                 break;
             case 'h':
-                printf("Hilfe hier:.......\n");
+                printf(
+                    "Benutzung: vcard [OPTIONEN] [DATEINAME]\n"
+                    "\n"
+                    "Optionen:\n"
+                    "  -f, --firstname NAME    Vorname angeben\n"
+                    "  -s, --surname NAME      Nachname angeben\n"
+                    "  -m, --email EMAIL       E-Mail angeben\n"
+                    "  -p, --phone-home TEL    Private Telefonnummer\n"
+                    "      --phone-work TEL    Dienstliche Telefonnummer\n"
+                    "      --org ORG           Organisation angeben\n"
+                    "      --programmer-info   Autor anzeigen\n"
+                    "  -h, --help              Hilfe anzeigen\n"
+                );
                 return 0;
             case 3:
-                printf("Programmer-Info ....\n");
+                printf("BEGIN:VCARD\n");
+                printf("VERSION:3.0\n");
+                printf("N:Jerg;Julia;;;\n");
+                printf("FN:Julia Jerg\n");
+                printf("ORG:TIA;Aktive MV Fronhofen;Jugenleiterin MV Fronhofen\n");
+                printf("EMAIL;TYPE=PREF,INTERNET:julia.r.jerg@t-online.de\n");
+                printf("REV:%s\n", rev);
+                printf("END:VCARD\n");
                 return 0;
         }
     }
 
+    insert(&head, 3, "N:" + lastname + ";" + firstname + ";;;");
+    insert(&head, 4, "FN:" + firstname + " " + lastname);
+    if (!org.empty()) {
+        insert(&head, 5, "ORG:" + org);
+    }
+    for (int i = 0; i < phone_work_count; i++) {
+        insert(&head, 6, string("TEL;TYPE=WORK,VOICE:") + phone_work[i]);
+    }
+    for (int i = 0; i < phone_home_count; i++) {
+        insert(&head, 7, string("TEL;TYPE=HOME,VOICE:") + phone_home[i]);
+    }
+    for (int i = 0; i < email_count; i++) {
+        insert(&head, 8, string("EMAIL;TYPE=PREF,INTERNET:") + email[i]);
+    }
+
+
     // Hier kommt die Ausgabe
-    
     if (!firstname.empty() && !lastname.empty()) {
-        printf("BEGIN:VCARD\n");
-        printf("VERSION:3.0\n");
-        printf("N:%s;%s;;;\n", lastname.c_str(), firstname.c_str());
-        printf("FN:%s %s\n", firstname.c_str(), lastname.c_str());
-        if (!org.empty()) {
-            printf("ORG:%s\n", org.c_str());
-        }
-        for (int i = 0; i < phone_work_count; i++) {
-            printf("TEL;TYPE=WORK,VOICE:%s\n", phone_work[i]);
-        }   
-        for (int i = 0; i < phone_home_count; i++) {
-            printf("TEL;TYPE=HOME,VOICE:%s\n", phone_home[i]);
-        }   
-        for (int i = 0; i < email_count; i++) {
-            printf("EMAIL;TYPE=PREF,INTERNET:%s\n", email[i]);
-        }    
-        printf("REV:%s\n", rev);
-        printf("END:VCARD\n");
-
+        printList(head);
+        freeList(head);
         return 0;
-
     } else {
+        freeList(head);
         if (firstname.empty() && lastname.empty()) {
-            fprintf(stderr, "Fehler: Kein Vor- und lastname angegeben!\n");
+            fprintf(stderr, "Fehler: Kein Vor- und Nachname angegeben!\n");
         } else {
             if (firstname.empty()) {
-                fprintf(stderr, "Fehler: Kein firstname angegeben!\n");
+                fprintf(stderr, "Fehler: Kein Vorname angegeben!\n");
             }else if (lastname.empty()) {
-                fprintf(stderr, "Fehler: Kein lastname angegeben!\n");
+                fprintf(stderr, "Fehler: Kein Nachname angegeben!\n");
             }
         }
         return 1;
-
     }
 
 }
