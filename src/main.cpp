@@ -14,11 +14,11 @@ int main(int argc, char *argv[]) {
     string firstname = "";
     string lastname = "";
     string org = "";
-    char *email[5];
+    string email[5];
     int email_count = 0;
-    char *phone_home[5];
+    string phone_home[5];
     int phone_home_count = 0;
-    char *phone_work[5];
+    string phone_work[5];
     int phone_work_count = 0;
     struct option long_opts[] = {
         {"firstname", required_argument, 0, 'f'},
@@ -173,13 +173,13 @@ int main(int argc, char *argv[]) {
         insert(&head, 5, "ORG:" + org);
     }
     for (int i = 0; i < phone_work_count; i++) {
-        insert(&head, 6, string("TEL;TYPE=WORK,VOICE:") + phone_work[i]);
+        insert(&head, 6, "TEL;TYPE=WORK,VOICE:" + phone_work[i]);
     }
     for (int i = 0; i < phone_home_count; i++) {
-        insert(&head, 7, string("TEL;TYPE=HOME,VOICE:") + phone_home[i]);
+        insert(&head, 7, "TEL;TYPE=HOME,VOICE:" + phone_home[i]);
     }
     for (int i = 0; i < email_count; i++) {
-        insert(&head, 8, string("EMAIL;TYPE=PREF,INTERNET:") + email[i]);
+        insert(&head, 8, "EMAIL;TYPE=PREF,INTERNET:" + email[i]);
     }
 
     // Ausgabe in Datei oder stdout
